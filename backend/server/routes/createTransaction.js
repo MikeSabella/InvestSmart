@@ -3,16 +3,16 @@ const router = express.Router();
 const TransactionModel = require('../models/transactionModel'); // Importing the TransactionModel
 const UserModel = require('../models/userModel'); // Importing the UserModel
 
-
+//THIS IS A STOCK TRANSACTION
 // Route to handle creating a new transaction
 router.post('/createTransaction', async (req, res) => {
     try {
         // Extract transaction data from the request body
-        const { stock_ticker, tran_type, tran_amount, username, } = req.body;
+        const { stock_name, tran_type, tran_amount, username, } = req.body;
 
         // Create a new transaction document using the TransactionModel
         const newTransaction = new TransactionModel({
-            stock_ticker,
+            stock_name,
             tran_type,
             tran_amount,
             username

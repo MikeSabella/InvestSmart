@@ -21,9 +21,9 @@ POST http://localhost:8081/user/signup
 Content-Type: application/json 
 
 {
-    "username" : "tochiamanze",
-    "email" : "cdon@gmail.com",
-    "password" : "tochi12345"
+    "username" : "mikesab",
+    "email" : "mikesab@gmail.com",
+    "password" : "mikesab12"
 }
 
 ###

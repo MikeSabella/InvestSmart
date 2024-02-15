@@ -19,6 +19,7 @@ const newUserSchema = new mongoose.Schema(
       min : 8
     },
     cashBalance: {
+      required: true ,
       type: Number,
       default: 20000
     },

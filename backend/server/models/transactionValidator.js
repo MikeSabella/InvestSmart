@@ -3,7 +3,7 @@ const z = require('zod');
 // Validates when a new transaction is created
 const newTransactionValidation = data => {
   const transactionValidationSchema = z.object({
-    stock_ticker: z.string().nonempty('Stock ticker is required'),
+    stock_name: z.string().nonempty('Stock ticker is required'),
     tran_type: z.string().min(3, 'Transaction type must be at least 3 characters').nonempty('Transaction type is required'),
     tran_amount: z.number().positive('Transaction amount must be a positive number').nonempty('Transaction amount is required'),
   });
@@ -13,7 +13,7 @@ const newTransactionValidation = data => {
 
 const transactionValidation = data => {
     const transactionValidation = z.object({
-      stock_ticker: z.string().nonempty('Stock ticker is required'),
+      stock_name: z.string().nonempty('Stock ticker is required'),
         tran_type: z.string().min(3, 'Transaction type must be at least 3 characters').nonempty('Transaction type is required'),
         tran_amount: z.number().positive('Transaction amount must be a positive number').nonempty('Transaction amount is required'),
     });
