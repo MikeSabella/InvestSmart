@@ -1,3 +1,22 @@
+POST http://localhost:8081/transaction/createtransaction
+Content-Type: application/json
+
+{
+    "stock_name": "AMZ",
+    "tran_type": "BUY",
+    "tran_amount": 7000,
+    "username": "tochiamanze"
+}
+
+###
+GET http://localhost:8081/transaction/getAll
+Content-Type: application/json
+
+###
+POST  http://localhost:8081/transaction/deleteAll
+
+
+###
 POST http://localhost:8081/user/signup
 Content-Type: application/json 
 
@@ -13,8 +32,8 @@ POST http://localhost:8081/user/login
 Content-Type: application/json 
 
 {
-    "username" : "tochiamanze",
-    "password" : "tochi12345"
+    "username" : "JJJJJJJJJJJJJ",
+    "password" : "J1234567"
 }
 
 ###
@@ -27,9 +46,9 @@ POST http://localhost:8081/user/editUser
 Content-Type: application/json 
 
 {
-    "userId" : "635ab8dfc407faf9f73deaf2",
-    "username" : "Tochi Edit",
-    "password" : "dwwrwr"
+    "userId" : "65cd70c37211992d0f9028a5",
+    "username" : "J1234567",
+    "password" : "J1234567"
 }
 
 ###
@@ -37,16 +56,12 @@ GET  http://localhost:8081/user/getUserById
 Content-Type: application/json 
 
 {
-    "userId" : "635ab8dfc407faf9f73deaf1"
-}
-
-###
-GET  http://localhost:8081/user/getUserById
-Content-Type: application/json 
-
-{
-    "userId" : "634edb2a16710b2cda6fb370"
+    "userId" : "65cd89467211992d0f9028d6"
 }
 
 ###
 POST  http://localhost:8081/user/deleteAll
+
+###
+GET http://localhost:8081/user/getUserCashBalance?userId=65cd86017211992d0f9028d0
+Content-Type: application/json
