@@ -18,17 +18,25 @@ router.post('/createTransaction', async (req, res) => {
             username
         });
 
-        // Save the transaction document to the database
-        const savedTransaction = await newTransaction.save();
-
         const user = await UserModel.findOne({ username });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        if (tran_type === 'BUY' && user.cashBalance < tran_amount) {
+            return res.status(400).json({ message: 'Insufficient funds for transaction' });
+        }
+        if (tran_type === 'BUY') {
+            user.cashBalance -= tran_amount;
+        } else if (tran_type === 'SELL') {
+            user.cashBalance += tran_amount;
+        }
 
         // Save the updated user document to the database
         await user.save();
+
+        // Save the transaction document to the database
+        const savedTransaction = await newTransaction.save();
 
         // Respond with a success message
         res.status(201).json({ message: 'Transaction created successfully', transaction: savedTransaction});

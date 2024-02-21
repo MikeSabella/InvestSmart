@@ -4,8 +4,8 @@ Content-Type: application/json
 {
     "stock_name": "AMZ",
     "tran_type": "BUY",
-    "tran_amount": 7000,
-    "username": "tochiamanze"
+    "tran_amount": 42002,
+    "username": "mikesab"
 }
 
 ###
@@ -61,7 +61,3 @@ Content-Type: application/json
 
 ###
 POST  http://localhost:8081/user/deleteAll
-
-###
-GET http://localhost:8081/user/getUserCashBalance?userId=65cd86017211992d0f9028d0
-Content-Type: application/json

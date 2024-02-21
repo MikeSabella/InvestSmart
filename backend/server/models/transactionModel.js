@@ -37,11 +37,5 @@ transactionSchema.post('save', async function(doc) {
         throw new Error('User not found');
     }
 
-    if (doc.tran_type === 'BUY') {
-        user.cashBalance -= doc.tran_amount;
-    } else if (doc.tran_type === 'SELL') {
-        user.cashBalance += doc.tran_amount;
-    }
-
     await user.save();
 });
