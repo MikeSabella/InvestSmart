@@ -11,7 +11,7 @@ const deleteUser = require('./routes/userDeleteAll')
 const createTransaction = require('./routes/createTransaction')
 const getAllTransactions = require('./routes/transactionGetAllTransactions')
 const deleteAllTransactions = require('./routes/transactionDeleteAll')
-//const getUserCashBalance = require('./routes/userGetCashBalance')
+const getAllHoldings = require('./routes/holdingRoute');
 
 require('dotenv').config();
 const SERVER_PORT = 8081
@@ -28,7 +28,7 @@ app.use('/user', deleteUser)
 app.use('/transaction',createTransaction)
 app.use('/transaction',getAllTransactions)
 app.use('/transaction', deleteAllTransactions)
-//app.use('/user', getUserCashBalance)
+app.use('/holding', getAllHoldings);
 
 app.listen(SERVER_PORT, (req, res) => {
     console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);

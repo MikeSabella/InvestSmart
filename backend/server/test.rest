@@ -1,10 +1,16 @@
+GET http://localhost:8081/holding/getHoldings
+Content-Type: application/json
+{
+    "holdings": "mikesab"
+}
+###
 POST http://localhost:8081/transaction/createtransaction
 Content-Type: application/json
 
 {
     "stock_name": "AMZ",
-    "tran_type": "BUY",
-    "tran_amount": 42002,
+    "tran_type": "SELL",
+    "tran_amount": 100,
     "username": "mikesab"
 }
 
