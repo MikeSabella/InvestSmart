@@ -13,22 +13,25 @@ export default function Navbar() {
   const [user, setUser] = useState({})
 
   useEffect(() => {
-  setUser(getUserInfo())
+    setUser(getUserInfo())
   }, [])
   
   // if (!user) return null   - for now, let's show the bar even not logged in.
   // we have an issue with getUserInfo() returning null after a few minutes
   // it seems.
   return (
-    <ReactNavbar bg="dark" variant="dark">
-    <Container>
-      <Nav className="me-auto">
-        <Nav.Link href="/">Start</Nav.Link>
-        <Nav.Link href="/home">Home</Nav.Link>
-        <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
-      </Nav>
-    </Container>
-  </ReactNavbar>
-
+    <ReactNavbar bg="primary" variant="dark" expand="lg">
+      <Container>
+        <ReactNavbar.Brand href="/">InvestSmart</ReactNavbar.Brand>
+        <ReactNavbar.Toggle aria-controls="basic-navbar-nav" />
+        <ReactNavbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/portfolio">Portfolio</Nav.Link>
+            <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
+          </Nav>
+        </ReactNavbar.Collapse>
+      </Container>
+    </ReactNavbar>
   );
 }

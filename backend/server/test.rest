@@ -1,8 +1,6 @@
-GET http://localhost:8081/holding/getHoldings
+###
+GET http://localhost:8081/holdings/mikesab
 Content-Type: application/json
-{
-    "holdings": "mikesab"
-}
 ###
 POST http://localhost:8081/transaction/createtransaction
 Content-Type: application/json
