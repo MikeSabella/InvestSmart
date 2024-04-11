@@ -28,7 +28,7 @@ export default function Navbar() {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/portfolio">Portfolio</Nav.Link>
-            <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
+            <Nav.Link href="/buyStock">Buy Stock</Nav.Link>
           </Nav>
         </ReactNavbar.Collapse>
       </Container>

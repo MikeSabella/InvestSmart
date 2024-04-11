@@ -8,7 +8,7 @@ import LandingPage from "./components/pages/landingPage";
 import PortfolioPage from "./components/pages/portfolioPage";
 import Login from "./components/pages/loginPage";
 import Signup from "./components/pages/registerPage";
-import PrivateUserProfile from "./components/pages/privateUserProfilePage";
+import BuyStock from "./components/pages/buyStockPage";
 import { createContext, useState, useEffect } from "react";
 import getUserInfo from "./utilities/decodeJwt";
 
@@ -31,7 +31,7 @@ const App = () => {
           <Route exact path="/portfolio" element={<PortfolioPage />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
-          <Route path="/privateUserProfile" element={<PrivateUserProfile />} />
+          <Route path="/buyStock" element={<BuyStock />} />
         </Routes>
       </UserContext.Provider>
     </>

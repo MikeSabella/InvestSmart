@@ -6,9 +6,9 @@ POST http://localhost:8081/transaction/createtransaction
 Content-Type: application/json
 
 {
-    "stock_name": "AAPL",
-    "tran_type": "SELL",
-    "tran_amount": 1000,
+    "stock_name": "GOOG",
+    "tran_type": "BUY",
+    "tran_amount": 2000,
     "username": "mikesab1"
 }
 

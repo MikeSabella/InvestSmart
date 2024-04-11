@@ -20,3 +20,57 @@
     justify-content: center;
     align-items: center;
 }
+
+.top-right {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+}
+
+.cash-balance-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    display: inline-block;
+  }
+  
+  .cash-balance-card h5 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .cash-balance-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #76bff7;
+    margin: 0;
+  }
+
+  .portfolio-section {
+    padding-top: 70px; /* Add padding to the top of the portfolio section */
+  }
+
+  .cool-card {
+    background-color: #76bff7;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    color: white;
+}
+
+.cool-card .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.cool-card .card-text {
+    font-size: 1.2
+}
+
+
+
+
