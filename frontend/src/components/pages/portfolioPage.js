@@ -101,8 +101,16 @@ const PortfolioPage = () => {
               tran_amount: sellAmount,
               username: user.username,
           });
-  
-          
+
+
+            const userInfo = getUserInfo();
+            const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
+            setCashBalance(userResponse.data.cashBalance);
+
+            const response2 = await axios.get(`http://localhost:8081/holdings/${userInfo.username}`);
+            setHoldings(response2.data);
+            await fetchTotalValues(response2.data);
+
           console.log('Transaction created successfully:', response.data);
           
       } catch (error) {
