@@ -45,7 +45,7 @@ router.post('/createTransaction', async (req, res) => {
             // Calculate transaction amount based on current stock price
             const shares = tran_amount / currentStockPrice;
 
-            user.cashBalance -= tran_amount;
+            user.cashBalance -= parseFloat(tran_amount);
             await user.save();
 
             const holding = await HoldingsModel.findOne({ username, stock_name });
@@ -81,7 +81,7 @@ router.post('/createTransaction', async (req, res) => {
             // Calculate number of shares based on current stock price
             const shares = tran_amount / currentStockPrice;
 
-            user.cashBalance += tran_amount;
+            user.cashBalance += parseFloat(tran_amount);
             await user.save();
 
             holding.quantity -= shares;
