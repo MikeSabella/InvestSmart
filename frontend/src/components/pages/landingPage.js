@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import backgroundImage from '../pages/ISlogo.png'; // Import your PNG image
+import getUserInfo from '../../utilities/decodeJwt';
 
 const LandingPage = () => {
+    const navigate = useNavigate();
     useEffect(() => {
         // Change background color randomly
         const getRandomColor = () => {
@@ -12,6 +15,15 @@ const LandingPage = () => {
         };
         document.body.style.backgroundColor = getRandomColor();
     }, []);
+
+    const handleRedirect = () => {
+        const userInfo = getUserInfo();
+        if(userInfo) {
+            navigate('/portfolio');
+        } else {
+            navigate('/login');
+        }
+    };
 
     return (
         <div className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
@@ -23,8 +35,7 @@ const LandingPage = () => {
                     <Card.Subtitle className="mb-4 text-muted">Web application capstone project built by: Michael Sabella</Card.Subtitle>
                     <Card.Text>
                     </Card.Text>
-                    <Card.Link href="/signup">Sign Up</Card.Link>
-                    <Card.Link href="/login">Login</Card.Link>
+                    <Card.Link href="#" onClick={handleRedirect}>Start</Card.Link>
                 </Card.Body>
             </Card>
         </div>

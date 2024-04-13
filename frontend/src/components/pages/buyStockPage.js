@@ -39,21 +39,28 @@ const BuyPage = () => {
             return 0;
         }
 
-        // Call the createTransaction API endpoint with the buy transaction details
         try {
-            const response = await axios.post('http://localhost:8081/createTransaction', {
+            // Call the createTransaction API endpoint with the buy transaction details
+            const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
                 stock_name: stockName,
                 tran_type: 'BUY',
                 tran_amount: buyAmount,
                 username: user.username,
             });
-            console.log('Transaction created successfully:', response.data);
-            // Optionally, you can fetch updated data after the transaction
+
+            // Update user's cash balance
+            const updatedBalance = cashBalance - buyAmount;
+            setCashBalance(updatedBalance);
+
+            // Optionally, you can fetch updated user data after the transaction
+            const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${user.username}`);
+            setUser(userResponse.data);
+
+            // Close the modal after successful purchase
+            setModalIsOpen(false);
         } catch (error) {
             console.error('Error creating transaction:', error);
         }
-
-        setModalIsOpen(false);
     };
 
     // handle logout button
@@ -72,7 +79,7 @@ const BuyPage = () => {
         <div className="container">
             <div className="cash-balance-card top-right">
                 <h5>Cash Balance</h5>
-                <p>${cashBalance}</p>
+                <p>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
             </div>
             <div className="col-md-12 text-center">
                 <h1>{user.username}</h1>
@@ -103,7 +110,7 @@ const BuyPage = () => {
                     </>
                 </div>
             </div>
-            <div className="col-md-12 text-center">
+            <div className="col-md-12 text-center mt-5">
                 <Button variant="primary" style={{ fontSize: '8rem' }} onClick={() => setModalIsOpen(true)}>Buy Stock</Button>
             </div>
             <Modal

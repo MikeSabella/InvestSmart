@@ -60,7 +60,7 @@ const PortfolioPage = () => {
                 const percentChange = ((close - open) / open) * 100;
                 values[holding.stock_name] = {
                     currentValue: close * holding.quantity,
-                    percentChange: percentChange.toFixed(2)
+                    percentChange: percentChange
                 };
             } catch (error) {
                 console.error(`Error fetching current price for ${holding.stock_name}:`, error);
@@ -86,22 +86,21 @@ const PortfolioPage = () => {
     };
 
     const handleSellSubmit = async () => {
-      // Validate the sell amount
-      //TODO
-      //if (sellAmount <= 0 || sellAmount > selectedStockValue) {
-      if (sellAmount <= 0 ) {
-        return 0;
-      }
-  
-      // Call the createTransaction API endpoint with the sell transaction details
-      try {
-          const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
-              stock_name: selectedStock,
-              tran_type: 'SELL',
-              tran_amount: sellAmount,
-              username: user.username,
-          });
+        // Validate the sell amount
+        //TODO
+        //if (sellAmount <= 0 || sellAmount > selectedStockValue) {
+        if (sellAmount <= 0 ) {
+            return 0;
+        }
 
+        // Call the createTransaction API endpoint with the sell transaction details
+        try {
+            const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
+                stock_name: selectedStock,
+                tran_type: 'SELL',
+                tran_amount: sellAmount,
+                username: user.username,
+            });
 
             const userInfo = getUserInfo();
             const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
@@ -111,15 +110,15 @@ const PortfolioPage = () => {
             setHoldings(response2.data);
             await fetchTotalValues(response2.data);
 
-          console.log('Transaction created successfully:', response.data);
-          
-      } catch (error) {
-          console.error('Error creating transaction:', error);
-          
-      }
-  
-      closeModal();
-  };
+            console.log('Transaction created successfully:', response.data);
+
+        } catch (error) {
+            console.error('Error creating transaction:', error);
+
+        }
+
+        closeModal();
+    };
 
     const closeModal = () => {
         setModalIsOpen(false);
@@ -137,7 +136,7 @@ const PortfolioPage = () => {
         <div className="container">
             <div className="cash-balance-card top-right">
                 <h5>Cash Balance</h5>
-                <p>${cashBalance}</p>
+                <p>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
             </div>
             <div className="portfolio-section" style={{ paddingTop: '70px' }}>
                 <h1 className="text-center">{user.username}'s Portfolio</h1>
@@ -145,18 +144,18 @@ const PortfolioPage = () => {
                     holdings.map((holding, index) => (
                         <div key={index} className="cool-card">
                             <div className="card-body">
-                                <h5 className="card-title">{holding.stock_name}</h5>
-                                <p className="card-text">Shares Owned: {holding.quantity}</p>
-                                <p className="card-text">
-                                    Current Value: <span style={{ fontWeight: 'bold' }}>
-                                        {totalValues[holding.stock_name] !== undefined ? totalValues[holding.stock_name].currentValue : 'Loading...'}
-                                    </span>
-                                </p>
-                                <p className="card-text">
-                                    Daily Percent Change: <span style={{ color: getPercentChangeColor(totalValues[holding.stock_name]?.percentChange), fontWeight: 'bold' }}>
-                                        {totalValues[holding.stock_name] !== undefined ? totalValues[holding.stock_name].percentChange + '%' : 'Loading...'}
-                                    </span>
-                                </p>
+                            <h5 className="card-title">{holding.stock_name}</h5>
+                            <p className="card-text">Shares Owned: {holding.quantity.toFixed(2)}</p>
+                            <p className="card-text">
+                            Current Value: <span style={{ fontWeight: 'bold' }}>
+                            {typeof totalValues[holding.stock_name]?.currentValue === 'number' ? '$' + totalValues[holding.stock_name].currentValue.toLocaleString(undefined, {maximumFractionDigits:2}) : 'Loading...'}
+                            </span>
+                        </p>
+                            <p className="card-text">
+                                Daily Percent Change: <span style={{ color: getPercentChangeColor(totalValues[holding.stock_name]?.percentChange), fontWeight: 'bold' }}>
+                                {typeof totalValues[holding.stock_name]?.percentChange === 'number' ? totalValues[holding.stock_name].percentChange.toFixed(2) + '%' : 'Loading...'}
+                            </span>
+                            </p>
                                 <button onClick={() => handleSell(holding.stock_name)} className="sell-button">Sell</button>
                             </div>
                         </div>
@@ -180,7 +179,7 @@ const PortfolioPage = () => {
                     <input type="number" id="sellAmount" value={sellAmount} onChange={(e) => setSellAmount(e.target.value)} />
                 </div>
                 <button onClick={handleSellSubmit}>Sell</button>
-                <button onClick={closeModal}>Close Modal</button>
+                <button onClick={closeModal}>Close</button>
             </Modal>
         </div>
     );
