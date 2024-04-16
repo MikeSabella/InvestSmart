@@ -9,12 +9,13 @@ const PortfolioPage = () => {
     const [user, setUser] = useState({});
     const [holdings, setHoldings] = useState([]);
     const [totalValues, setTotalValues] = useState({});
-    const [cashBalance, setCashBalance] = useState(0); // State for cash balance
-    const [selectedStock, setSelectedStock] = useState(null); // State to store the selected stock
-    const [modalIsOpen, setModalIsOpen] = useState(false); // State to manage modal open/close
+    const [cashBalance, setCashBalance] = useState(0);
+    const [selectedStock, setSelectedStock] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [sellAmount, setSellAmount] = useState(0);
-    const [selectedStockValue, setSelectedStockValue] = useState(0);
-    
+    const [sellSuccess, setSellSuccess] = useState(false);
+    const [sellError, setSellError] = useState('');
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,7 +26,6 @@ const PortfolioPage = () => {
                 const response = await axios.get(`http://localhost:8081/holdings/${userInfo.username}`);
                 setHoldings(response.data);
                 await fetchTotalValues(response.data);
-                // Fetch user's cash balance
                 const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
                 setCashBalance(userResponse.data.cashBalance);
             } catch (error) {
@@ -38,10 +38,9 @@ const PortfolioPage = () => {
     const getCurrentStockPrice = async (stock_name) => {
         try {
             const currentDate = new Date();
-            currentDate.setDate(currentDate.getDate() - 2); // Get the date of the previous day
-            const formattedDate = currentDate.toISOString().slice(0, 10); // Format date as YYYY-MM-DD
+            currentDate.setDate(currentDate.getDate() - 1);
+            const formattedDate = currentDate.toISOString().slice(0, 10);
             const response = await axios.get(`https://api.polygon.io/v1/open-close/${stock_name}/${formattedDate}?adjusted=true&apiKey=PIpKAl2a9S1w6fgammFWHLBX0DKkynpQ`);
-            // Extract and return the open and close prices from the response
             return {
                 open: response.data.open,
                 close: response.data.close
@@ -86,14 +85,14 @@ const PortfolioPage = () => {
     };
 
     const handleSellSubmit = async () => {
-        // Validate the sell amount
-        //TODO
-        //if (sellAmount <= 0 || sellAmount > selectedStockValue) {
-        if (sellAmount <= 0 ) {
-            return 0;
+        // Find the total value of the selected stock
+        const selectedStockValue = totalValues[selectedStock]?.currentValue;
+    
+        if (sellAmount <= 0 || sellAmount > selectedStockValue) {
+            setSellError('This is either a negative value or you are attempting to sell more stock than you own.');
+            return;
         }
-
-        // Call the createTransaction API endpoint with the sell transaction details
+    
         try {
             const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
                 stock_name: selectedStock,
@@ -101,27 +100,30 @@ const PortfolioPage = () => {
                 tran_amount: sellAmount,
                 username: user.username,
             });
-
+    
             const userInfo = getUserInfo();
             const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
             setCashBalance(userResponse.data.cashBalance);
-
+    
             const response2 = await axios.get(`http://localhost:8081/holdings/${userInfo.username}`);
             setHoldings(response2.data);
             await fetchTotalValues(response2.data);
-
+    
             console.log('Transaction created successfully:', response.data);
-
+            setSellSuccess(true);
+            closeModal(); // Close the modal after successful sell
         } catch (error) {
             console.error('Error creating transaction:', error);
-
+            setSellError('Failed to complete sell transaction.');
         }
-
-        closeModal();
     };
+    
 
     const closeModal = () => {
         setModalIsOpen(false);
+        setSellAmount(0);
+        setSellSuccess(false);
+        setSellError('');
     };
 
     const getPercentChangeColor = (percentChange) => {
@@ -178,6 +180,8 @@ const PortfolioPage = () => {
                     <label htmlFor="sellAmount">Enter total dollar amount you would like to sell:</label>
                     <input type="number" id="sellAmount" value={sellAmount} onChange={(e) => setSellAmount(e.target.value)} />
                 </div>
+                {sellSuccess && <p style={{ color: 'green' }}>Sell transaction completed successfully.</p>}
+                {sellError && <p style={{ color: 'red' }}>{sellError}</p>}
                 <button onClick={handleSellSubmit}>Sell</button>
                 <button onClick={closeModal}>Close</button>
             </Modal>

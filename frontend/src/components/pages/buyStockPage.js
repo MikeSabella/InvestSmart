@@ -14,6 +14,8 @@ const BuyPage = () => {
     const [buyAmount, setBuyAmount] = useState(0);
     const [cashBalance, setCashBalance] = useState(0);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [buySuccess, setBuySuccess] = useState(false);
+    const [buyError, setBuyError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,7 +38,8 @@ const BuyPage = () => {
     const handleBuySubmit = async () => {
         // Validate the buy amount
         if (buyAmount <= 0 || buyAmount > cashBalance) {
-            return 0;
+            setBuyError('Either the requested amount is negative or greater than cash balance');
+            return;
         }
 
         try {
@@ -56,10 +59,14 @@ const BuyPage = () => {
             const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${user.username}`);
             setUser(userResponse.data);
 
+            // Set buy success message
+            setBuySuccess(true);
+
             // Close the modal after successful purchase
             setModalIsOpen(false);
         } catch (error) {
             console.error('Error creating transaction:', error);
+            setBuyError('Please enter a valid ticker or amount of stock to puchase');
         }
     };
 
@@ -143,6 +150,8 @@ const BuyPage = () => {
                             />
                         </Form.Group>
                     </Form>
+                    {buySuccess && <p style={{ color: 'green' }}>Buy transaction completed successfully.</p>}
+                    {buyError && <p style={{ color: 'red' }}>{buyError}</p>}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setModalIsOpen(false)}>Cancel</Button>

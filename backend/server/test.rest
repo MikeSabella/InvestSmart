@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "stock_name": "GOOG",
-    "tran_type": "SELL",
+    "tran_type": "BUY",
     "tran_amount": 100,
     "username": "mikesab1"
 }
