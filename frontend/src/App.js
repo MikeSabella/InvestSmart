@@ -11,6 +11,7 @@ import Signup from "./components/pages/registerPage";
 import BuyStock from "./components/pages/buyStockPage";
 import { createContext, useState, useEffect } from "react";
 import getUserInfo from "./utilities/decodeJwt";
+import EditUser from "./components/pages/editUserPage";
 
 export const UserContext = createContext();
 //test change
@@ -32,6 +33,7 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route path="/buyStock" element={<BuyStock />} />
+          <Route exact path="/edituser" element={<EditUser />} />
         </Routes>
       </UserContext.Provider>
     </>

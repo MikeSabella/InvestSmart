@@ -63,15 +63,9 @@
     color: white;
 }
 
-.cool-card .card-title {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+.cool-font {
+  font-family: 'Gabriola', sans-serif;
+  /* Additional styling for the cool font */
 }
-
-.cool-card .card-text {
-    font-size: 1.2
-}
-
-
 
 

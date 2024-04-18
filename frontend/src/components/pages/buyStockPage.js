@@ -88,8 +88,9 @@ const BuyPage = () => {
                 <h5>Cash Balance</h5>
                 <p>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
             </div>
-            <div className="col-md-12 text-center">
+            <div className="text-center cool-font">
                 <h1>{user.username}</h1>
+            </div>
                 <div className="col-md-12 text-center">
                     <>
                         <Button className="me-2" onClick={handleShow}>
@@ -116,7 +117,6 @@ const BuyPage = () => {
                         </Modal>
                     </>
                 </div>
-            </div>
             <div className="col-md-12 text-center mt-5">
                 <Button variant="primary" style={{ fontSize: '8rem' }} onClick={() => setModalIsOpen(true)}>Buy Stock</Button>
             </div>

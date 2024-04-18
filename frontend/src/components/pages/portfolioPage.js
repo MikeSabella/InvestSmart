@@ -141,7 +141,7 @@ const PortfolioPage = () => {
                 <p>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
             </div>
             <div className="portfolio-section" style={{ paddingTop: '70px' }}>
-                <h1 className="text-center">{user.username}'s Portfolio</h1>
+                <h1 className="text-center cool-font">{user.username}'s Portfolio</h1>
                 {holdings.length > 0 ? (
                     holdings.map((holding, index) => (
                         <div key={index} className="cool-card">
