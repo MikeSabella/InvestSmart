@@ -5,17 +5,17 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import getUserInfo from "../../utilities/decodeJwt";
 
-const PRIMARY_COLOR = "#cc5c99";
-const SECONDARY_COLOR = '#0c0c1f'
+const PRIMARY_COLOR = "#007bff"; // Blue color for text and button
+const SECONDARY_COLOR = '#0c0c1f';
 const url = "http://localhost:8081/user/login";
 
 const Login = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const [data, setData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [light, setLight] = useState(false);
   const [bgColor, setBgColor] = useState(SECONDARY_COLOR);
-  const [bgText, setBgText] = useState('Light Mode')
+  const [bgText, setBgText] = useState('Light Mode');
   const navigate = useNavigate();
 
   let labelStyling = {
@@ -27,7 +27,7 @@ const Login = () => {
   let buttonStyling = {
     background: PRIMARY_COLOR,
     borderStyle: "none",
-    color: bgColor,
+    color: "#fff", // White color for button text
   };
 
   const handleChange = ({ currentTarget: input }) => {
@@ -35,16 +35,15 @@ const Login = () => {
   };
 
   useEffect(() => {
-
-    const obj = getUserInfo(user)
-    setUser(obj)
+    const obj = getUserInfo(user);
+    setUser(obj);
 
     if (light) {
       setBgColor("white");
-      setBgText('Dark mode')
+      setBgText('Dark mode');
     } else {
       setBgColor(SECONDARY_COLOR);
-      setBgText('Light mode')
+      setBgText('Light mode');
     }
   }, [light]);
 
@@ -55,7 +54,7 @@ const Login = () => {
       const { accessToken } = res;
       //store token in localStorage
       localStorage.setItem("accessToken", accessToken);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       if (
         error.response &&
@@ -67,9 +66,9 @@ const Login = () => {
     }
   };
 
-  if(user) {
-    navigate('/home')
-    return
+  if (user) {
+    navigate("/");
+    return null;
   }
 
   return (
@@ -78,7 +77,8 @@ const Login = () => {
         <div className="container-fluid h-custom vh-100">
           <div
             className="row d-flex justify-content-center align-items-center h-100 "
-            style={backgroundStyling}>
+            style={backgroundStyling}
+          >
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -89,9 +89,6 @@ const Login = () => {
                     onChange={handleChange}
                     placeholder="Enter username"
                   />
-                  <Form.Text className="text-muted">
-                    We just might sell your data
-                  </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label style={labelStyling}>Password</Form.Label>
@@ -104,21 +101,25 @@ const Login = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                   <Form.Text className="text-muted pt-1">
-                    Dont have an account?
+                    Don't have an account?
                     <span>
                       <Link to="/signup" style={labelStyling}> Sign up
                       </Link>
                     </span>
                   </Form.Text>
                 </Form.Group>
-                <div class="form-check form-switch">
+                <div className="form-check form-switch">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     id="flexSwitchCheckDefault"
                     onChange={() => { setLight(!light) }}
                   />
-                  <label class="form-check-label" for="flexSwitchCheckDefault" className='text-muted'>
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexSwitchCheckDefault"
+                    style={labelStyling}
+                  >
                     {bgText}
                   </label>
                 </div>

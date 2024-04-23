@@ -34,9 +34,9 @@ const LandingPage = () => {
             <Card style={{ width: '45rem' }} className="mx-2 my-2 text-center">
                 <Card.Body>
                     <div style={{ width: '200px', margin: '0 auto' }}> {/* Adjust the width as per your logo */}
-                        <Card.Title className="mb-4">InvestSmart</Card.Title>
+                        <Card.Title className="text-center cool-font" style={{ fontSize: '1.9rem' }}>InvestSmart</Card.Title>
                     </div>
-                    <Card.Subtitle className="text-center cool-font"style={{ fontSize: '1.9 rem' }}>Web application capstone project built by: Michael Sabella</Card.Subtitle>
+                    <Card.Subtitle className="text-center cool-font" style={{ fontSize: '1.9rem' }}>Web application capstone project built by: Michael Sabella</Card.Subtitle>
                     <Card.Text>
                     </Card.Text>
                     <Card.Link href="#" onClick={handleRedirect}>Start Investing!</Card.Link>

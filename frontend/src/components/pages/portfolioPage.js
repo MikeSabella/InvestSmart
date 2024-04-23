@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utilities/decodeJwt';
 import axios from 'axios';
 import Modal from 'react-modal';
-import '../pages/PortfolioPage.css';
+import Button from 'react-bootstrap/Button';
 
 const PortfolioPage = () => {
     const [user, setUser] = useState({});
@@ -38,7 +38,7 @@ const PortfolioPage = () => {
     const getCurrentStockPrice = async (stock_name) => {
         try {
             const currentDate = new Date();
-            currentDate.setDate(currentDate.getDate() - 1);
+            currentDate.setDate(currentDate.getDate() - 4);
             const formattedDate = currentDate.toISOString().slice(0, 10);
             const response = await axios.get(`https://api.polygon.io/v1/open-close/${stock_name}/${formattedDate}?adjusted=true&apiKey=PIpKAl2a9S1w6fgammFWHLBX0DKkynpQ`);
             return {
@@ -72,11 +72,6 @@ const PortfolioPage = () => {
         setTotalValues(values);
     };
 
-    const handleClick = (e) => {
-        e.preventDefault();
-        localStorage.removeItem('accessToken');
-        navigate('/');
-    };
 
     const handleSell = (stock_name) => {
         console.log(`Sell button clicked for ${stock_name}`);
@@ -87,12 +82,12 @@ const PortfolioPage = () => {
     const handleSellSubmit = async () => {
         // Find the total value of the selected stock
         const selectedStockValue = totalValues[selectedStock]?.currentValue;
-    
+
         if (sellAmount <= 0 || sellAmount > selectedStockValue) {
             setSellError('This is either a negative value or you are attempting to sell more stock than you own.');
             return;
         }
-    
+
         try {
             const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
                 stock_name: selectedStock,
@@ -100,15 +95,15 @@ const PortfolioPage = () => {
                 tran_amount: sellAmount,
                 username: user.username,
             });
-    
+
             const userInfo = getUserInfo();
             const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
             setCashBalance(userResponse.data.cashBalance);
-    
+
             const response2 = await axios.get(`http://localhost:8081/holdings/${userInfo.username}`);
             setHoldings(response2.data);
             await fetchTotalValues(response2.data);
-    
+
             console.log('Transaction created successfully:', response.data);
             setSellSuccess(true);
             closeModal(); // Close the modal after successful sell
@@ -117,7 +112,6 @@ const PortfolioPage = () => {
             setSellError('Failed to complete sell transaction.');
         }
     };
-    
 
     const closeModal = () => {
         setModalIsOpen(false);
@@ -137,37 +131,53 @@ const PortfolioPage = () => {
     return (
         <div className="container">
             <div className="cash-balance-card top-right">
-                <h5>Cash Balance</h5>
-                <p>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
+                <h1 className="text-center cool-font">Cash Balance</h1>
+                <p className="text-center cool-font" style={{ fontSize: '2.4rem' }}>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
             </div>
-            <div className="portfolio-section" style={{ paddingTop: '70px' }}>
-                <h1 className="text-center cool-font">{user.username}'s Portfolio</h1>
-                {holdings.length > 0 ? (
-                    holdings.map((holding, index) => (
-                        <div key={index} className="cool-card">
-                            <div className="card-body">
-                            <h5 className="card-title">{holding.stock_name}</h5>
-                            <p className="card-text">Shares Owned: {holding.quantity.toFixed(2)}</p>
-                            <p className="card-text">
-                            Current Value: <span style={{ fontWeight: 'bold' }}>
-                            {typeof totalValues[holding.stock_name]?.currentValue === 'number' ? '$' + totalValues[holding.stock_name].currentValue.toLocaleString(undefined, {maximumFractionDigits:2}) : 'Loading...'}
-                            </span>
-                        </p>
-                            <p className="card-text">
-                                Daily Percent Change: <span style={{ color: getPercentChangeColor(totalValues[holding.stock_name]?.percentChange), fontWeight: 'bold' }}>
-                                {typeof totalValues[holding.stock_name]?.percentChange === 'number' ? totalValues[holding.stock_name].percentChange.toFixed(2) + '%' : 'Loading...'}
-                            </span>
-                            </p>
-                                <button onClick={() => handleSell(holding.stock_name)} className="sell-button">Sell</button>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <div className="text-center">
-                        <p>You currently have no holdings of stock. Please purchase stocks using your cash balance.</p>
-                    </div>
-                )}
+            <div className="portfolio-section" style={{ paddingTop: '110px' }}>
+            <h1 className="text-center cool-font">{user.username}'s Portfolio</h1>
+            {holdings.length > 0 ? (
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Stock Name</th>
+                            <th>Shares Owned</th>
+                            <th>Current Value</th>
+                            <th>General Stock Daily Percent Change</th>
+                            <th>Sell?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {holdings.map((holding, index) => (
+                            <tr key={index}>
+                                <td>{holding.stock_name}</td>
+                                <td>{holding.quantity.toFixed(2)}</td>
+                                <td>
+                                    {typeof totalValues[holding.stock_name]?.currentValue === 'number' ? 
+                                        '$' + totalValues[holding.stock_name].currentValue.toLocaleString(undefined, {maximumFractionDigits:2}) : 
+                                        'Loading...'}
+                                </td>
+                                <td>
+                                    <span style={{ color: getPercentChangeColor(totalValues[holding.stock_name]?.percentChange), fontWeight: 'bold' }}>
+                                        {typeof totalValues[holding.stock_name]?.percentChange === 'number' ? 
+                                            totalValues[holding.stock_name].percentChange.toFixed(2) + '%' : 
+                                            'Loading...'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button onClick={() => handleSell(holding.stock_name)}>Sell</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <div className="text-center">
+                    <p>You currently have no holdings of stock. Please purchase stocks using your cash balance.</p>
+                </div>
+            )}
             </div>
+
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}

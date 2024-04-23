@@ -1,5 +1,5 @@
 ###
-GET http://localhost:8081/holdings/mikesab1
+GET http://localhost:8081/holdings/mikesab12
 Content-Type: application/json
 ###
 POST http://localhost:8081/transaction/createtransaction
@@ -8,8 +8,8 @@ Content-Type: application/json
 {
     "stock_name": "GOOG",
     "tran_type": "BUY",
-    "tran_amount": 100,
-    "username": "mikesab1"
+    "tran_amount": 1,
+    "username": "mikesab12"
 }
 
 ###

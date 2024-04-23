@@ -16,6 +16,7 @@ const BuyPage = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [buySuccess, setBuySuccess] = useState(false);
     const [buyError, setBuyError] = useState('');
+    const [transactions, setTransactions] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,12 +26,16 @@ const BuyPage = () => {
             try {
                 const response = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
                 setCashBalance(response.data.cashBalance);
+                const transactionsResponse = await axios.get(`http://localhost:8081/transaction/getAll`);
+                const sortedTransactions = transactionsResponse.data.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
+                setTransactions(sortedTransactions);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
         fetchData();
     }, []);
+    
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
@@ -66,7 +71,7 @@ const BuyPage = () => {
             setModalIsOpen(false);
         } catch (error) {
             console.error('Error creating transaction:', error);
-            setBuyError('Please enter a valid ticker or amount of stock to puchase');
+            setBuyError('Please enter a valid ticker or amount of stock to purchase');
         }
     };
 
@@ -85,40 +90,40 @@ const BuyPage = () => {
     return (
         <div className="container">
             <div className="cash-balance-card top-right">
-                <h5>Cash Balance</h5>
-                <p>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
+                <h1 className="text-center cool-font">Cash Balance</h1>
+                <p className="text-center cool-font" style={{ fontSize: '2.4rem' }}>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
             </div>
             <div className="text-center cool-font">
                 <h1>{user.username}</h1>
             </div>
-                <div className="col-md-12 text-center">
-                    <>
-                        <Button className="me-2" onClick={handleShow}>
-                            Log Out
-                        </Button>
-                        <Modal
-                            show={show}
-                            onHide={handleClose}
-                            backdrop="static"
-                            keyboard={false}
-                        >
-                            <Modal.Header closeButton>
-                                <Modal.Title>Log Out</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>Are you sure you want to Log Out?</Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" onClick={handleLogout}>
-                                    Yes
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
-                    </>
-                </div>
-            <div className="col-md-12 text-center mt-5">
-                <Button variant="primary" style={{ fontSize: '8rem' }} onClick={() => setModalIsOpen(true)}>Buy Stock</Button>
+            <div className="col-md-12 text-center cool-font">
+                <>
+                    <Button className="text-center cool-font " onClick={handleShow}>
+                        Log Out
+                    </Button>
+                    <Modal
+                        show={show}
+                        onHide={handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Log Out</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to Log Out?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={handleLogout}>
+                                Yes
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </>
+            </div>
+            <div className="col-md-12 text-center mt-5 cool-font">
+                <Button variant="primary" style={{ fontSize: '2rem' }} onClick={() => setModalIsOpen(true)}>Buy Stock</Button>
             </div>
             <Modal
                 show={modalIsOpen}
@@ -158,6 +163,30 @@ const BuyPage = () => {
                     <Button variant="primary" onClick={handleBuySubmit}>Buy</Button>
                 </Modal.Footer>
             </Modal>
+            <div>
+                <h2 className="col-md-12 cool-font">Previous Transactions:</h2>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Stock Name</th>
+                            <th>Transaction Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {transactions.map((transaction, index) => (
+                    <tr key={index} className={transaction.tran_type === 'BUY' ? 'buy-row' : 'sell-row'}>
+                    <td>{transaction.stock_name}</td>
+                    <td>{transaction.tran_type}</td>
+                    <td>${transaction.tran_amount}</td>
+                    <td>{new Date(transaction.transaction_date).toLocaleDateString()}</td>
+                
+                    </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

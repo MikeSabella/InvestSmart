@@ -22,10 +22,10 @@ export default function Navbar() {
   return (
     <ReactNavbar bg="primary" variant="dark" expand="lg">
       <Container>
-        <ReactNavbar.Brand href="/">InvestSmart</ReactNavbar.Brand>
+      <ReactNavbar.Brand href="/" className="text-center cool-font" style={{ fontSize: '1.9rem' }}>InvestSmart</ReactNavbar.Brand>
         <ReactNavbar.Toggle aria-controls="basic-navbar-nav" />
         <ReactNavbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+            <Nav className="text-center cool-font" style={{ fontSize: '1.9rem' }}>
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/portfolio">Portfolio</Nav.Link>
             <Nav.Link href="/buyStock">Buy Stock</Nav.Link>

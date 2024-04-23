@@ -9,8 +9,9 @@ const HoldingsModel = require('../models/holdingsModel');
 async function getCurrentStockPrice(stock_name) {
     try {
         const currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() - 1); // Get the date of the previous day
+        currentDate.setDate(currentDate.getDate() - 4); // Get the date of the previous day
         const formattedDate = currentDate.toISOString().slice(0, 10); // Format date as YYYY-MM-DD
+        
         const response = await axios.get(`https://api.polygon.io/v1/open-close/${stock_name}/${formattedDate}?adjusted=true&apiKey=PIpKAl2a9S1w6fgammFWHLBX0DKkynpQ`);
         //const response = await axios.get(`https://api.polygon.io/v1/open-close/${stock_name}/${formattedDate}?adjusted=true&apiKey=PIpKAl2a9S1w6fgammFWHLBX0DKkynpQ`);
         // Make an HTTP GET request to polygon.io API to fetch the current stock price

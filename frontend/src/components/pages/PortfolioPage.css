@@ -24,7 +24,7 @@
 
 .top-right {
     position: absolute;
-    top: 50px;
+    top: 60px;
     right: 10px;
 }
 
@@ -68,4 +68,10 @@
   /* Additional styling for the cool font */
 }
 
+.buy-row {
+  background-color: rgba(175, 246, 175, 0.5); /* Light green */
+}
 
+.sell-row {
+  background-color: rgba(246, 171, 183, 0.959); /* Light pink */
+}
