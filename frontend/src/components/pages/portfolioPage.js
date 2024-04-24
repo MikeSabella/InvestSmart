@@ -38,7 +38,7 @@ const PortfolioPage = () => {
     const getCurrentStockPrice = async (stock_name) => {
         try {
             const currentDate = new Date();
-            currentDate.setDate(currentDate.getDate() - 4);
+            currentDate.setDate(currentDate.getDate() - 2);
             const formattedDate = currentDate.toISOString().slice(0, 10);
             const response = await axios.get(`https://api.polygon.io/v1/open-close/${stock_name}/${formattedDate}?adjusted=true&apiKey=PIpKAl2a9S1w6fgammFWHLBX0DKkynpQ`);
             return {
@@ -185,9 +185,14 @@ const PortfolioPage = () => {
                 className="sell-modal"
                 overlayClassName="modal-overlay"
             >
-                <h2>Sell {selectedStock}</h2>
+                <h2>How much of {selectedStock} would you like to sell?</h2>
                 <div>
-                    <label htmlFor="sellAmount">Enter total dollar amount you would like to sell:</label>
+                    <p>Total Currently Owned: {
+                    typeof totalValues[selectedStock]?.currentValue === 'number' ? 
+                        '$' + totalValues[selectedStock].currentValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) : 
+                        'Loading...'}
+                    </p>
+                    <label htmlFor="sellAmount">Enter dollar amount :</label>
                     <input type="number" id="sellAmount" value={sellAmount} onChange={(e) => setSellAmount(e.target.value)} />
                 </div>
                 {sellSuccess && <p style={{ color: 'green' }}>Sell transaction completed successfully.</p>}

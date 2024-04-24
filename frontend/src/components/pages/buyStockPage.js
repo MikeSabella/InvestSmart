@@ -132,7 +132,7 @@ const BuyPage = () => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Buy Stock</Modal.Title>
+                    <Modal.Title>Would you like to purchase a stock?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
