@@ -48,19 +48,12 @@
     padding-top: 70px; /* Add padding to the top of the portfolio section */
   }
 
-  .cool-card {
-    background-color: #76bff7;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px;
-    color: white;
-}
 
-.cool-font {
+
+  .cool-font {
   font-family: 'Gabriola', sans-serif;
   /* Additional styling for the cool font */
-}
+  }
 
 .buy-row {
   background-color: rgba(175, 246, 175, 0.5); /* Light green */
@@ -68,4 +61,8 @@
 
 .sell-row {
   background-color: rgba(246, 171, 183, 0.959); /* Light pink */
+}
+
+.wide-button {
+  width: 100%;
 }

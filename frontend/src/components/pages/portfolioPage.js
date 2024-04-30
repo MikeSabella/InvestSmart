@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utilities/decodeJwt';
 import axios from 'axios';
 import Modal from 'react-modal';
-import Button from 'react-bootstrap/Button';
+import './PortfolioPage.css'; // Import CSS file for styling
 
 const PortfolioPage = () => {
     const [user, setUser] = useState({});
@@ -129,78 +129,78 @@ const PortfolioPage = () => {
     }
 
     return (
-        <div className="container">
-            <div className="cash-balance-card top-right">
-                <h1 className="text-center cool-font">Cash Balance</h1>
-                <p className="text-center cool-font" style={{ fontSize: '2.4rem' }}>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
-            </div>
-            <div className="portfolio-section" style={{ paddingTop: '110px' }}>
-            <h1 className="text-center cool-font">{user.username}'s Portfolio</h1>
-            {holdings.length > 0 ? (
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Stock Name</th>
-                            <th>Shares Owned</th>
-                            <th>Current Value</th>
-                            <th>General Stock Daily Percent Change</th>
-                            <th>Sell?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {holdings.map((holding, index) => (
-                            <tr key={index}>
-                                <td>{holding.stock_name}</td>
-                                <td>{holding.quantity.toFixed(2)}</td>
-                                <td>
-                                    {typeof totalValues[holding.stock_name]?.currentValue === 'number' ? 
-                                        '$' + totalValues[holding.stock_name].currentValue.toLocaleString(undefined, {maximumFractionDigits:2}) : 
-                                        'Loading...'}
-                                </td>
-                                <td>
-                                    <span style={{ color: getPercentChangeColor(totalValues[holding.stock_name]?.percentChange), fontWeight: 'bold' }}>
-                                        {typeof totalValues[holding.stock_name]?.percentChange === 'number' ? 
-                                            totalValues[holding.stock_name].percentChange.toFixed(2) + '%' : 
-                                            'Loading...'}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button onClick={() => handleSell(holding.stock_name)}>Sell</button>
-                                </td>
+        
+            <div className="container">
+                <div className="cash-balance-card top-right">
+                    <h1 className="text-center cool-font">Cash Balance</h1>
+                    <p className="text-center cool-font" style={{ fontSize: '2.4rem' }}>${cashBalance.toLocaleString(undefined, {maximumFractionDigits:2})}</p>
+                </div>
+                <div className="portfolio-section" style={{ paddingTop: '110px' }}>
+                <h1 className="text-center cool-font">{user.username}'s Portfolio</h1>
+                {holdings.length > 0 ? (
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Stock Ticker</th>
+                                <th>Shares Owned</th>
+                                <th>Current Value</th>
+                                <th>General Stock Daily Percent Change</th>
+                                <th>Sell?</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            ) : (
-                <div className="text-center">
-                    <p>You currently have no holdings of stock. Please purchase stocks using your cash balance.</p>
+                        </thead>
+                        <tbody>
+                            {holdings.map((holding, index) => (
+                                <tr key={index}>
+                                    <td>{holding.stock_name}</td>
+                                    <td>{holding.quantity.toFixed(2)}</td>
+                                    <td>
+                                        {typeof totalValues[holding.stock_name]?.currentValue === 'number' ? 
+                                        '$' + totalValues[holding.stock_name].currentValue.toFixed(2) : 'Loading...'}
+                                    </td>
+                                    <td>
+                                        <span style={{ color: getPercentChangeColor(totalValues[holding.stock_name]?.percentChange), fontWeight: 'bold' }}>
+                                            {typeof totalValues[holding.stock_name]?.percentChange === 'number' ? 
+                                                totalValues[holding.stock_name].percentChange.toFixed(2) + '%' : 
+                                                'Loading...'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => handleSell(holding.stock_name)}>Sell</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="text-center">
+                        <p>You currently have no holdings of stock. Please purchase stocks using your cash balance.</p>
+                    </div>
+                )}
                 </div>
-            )}
-            </div>
 
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Sell Modal"
-                className="sell-modal"
-                overlayClassName="modal-overlay"
-            >
-                <h2>How much of {selectedStock} would you like to sell?</h2>
-                <div>
-                    <p>Total Currently Owned: {
-                    typeof totalValues[selectedStock]?.currentValue === 'number' ? 
-                        '$' + totalValues[selectedStock].currentValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) : 
-                        'Loading...'}
-                    </p>
-                    <label htmlFor="sellAmount">Enter dollar amount :</label>
-                    <input type="number" id="sellAmount" value={sellAmount} onChange={(e) => setSellAmount(e.target.value)} />
-                </div>
-                {sellSuccess && <p style={{ color: 'green' }}>Sell transaction completed successfully.</p>}
-                {sellError && <p style={{ color: 'red' }}>{sellError}</p>}
-                <button onClick={handleSellSubmit}>Sell</button>
-                <button onClick={closeModal}>Close</button>
-            </Modal>
-        </div>
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Sell Modal"
+                    className="sell-modal"
+                    overlayClassName="modal-overlay"
+                >
+                    <h2>How much of {selectedStock} would you like to sell?</h2>
+                    <div>
+                        <p>Total Currently Owned: {
+                        typeof totalValues[selectedStock]?.currentValue === 'number' ? 
+                            '$' + totalValues[selectedStock].currentValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) : 
+                            'Loading...'}
+                        </p>
+                        <label htmlFor="sellAmount">Enter dollar amount :</label>
+                        <input type="number" id="sellAmount" value={sellAmount} onChange={(e) => setSellAmount(e.target.value)} />
+                    </div>
+                    {sellSuccess && <p style={{ color: 'green' }}>Sell transaction completed successfully.</p>}
+                    {sellError && <p style={{ color: 'red' }}>{sellError}</p>}
+                    <button onClick={handleSellSubmit}>Sell</button>
+                    <button onClick={closeModal}>Close</button>
+                </Modal>
+            </div>
     );
 };
 

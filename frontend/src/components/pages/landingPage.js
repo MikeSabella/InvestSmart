@@ -9,7 +9,18 @@ const LandingPage = () => {
     useEffect(() => {
         // Change background color randomly
         const getRandomColor = () => {
-            const colors = ['#ff5733', '#33ff57', '#5733ff', '#ff33f9', '#33fff5']; // Add your desired colors
+            const colors = [
+                '#ff5733', 
+                '#33ff57', 
+                '#5733ff', 
+                '#ff33f9', 
+                '#33fff5', 
+                '#ff9533', // Random color 1
+                '#33ff95', // Random color 2
+                '#9533ff', // Random color 3
+                '#f933ff', // Random color 4
+                '#f9ff33'  // Random color 5
+              ];
             const randomIndex = Math.floor(Math.random() * colors.length);
             return colors[randomIndex];
         };

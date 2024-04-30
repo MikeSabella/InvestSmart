@@ -69,6 +69,22 @@ const BuyPage = () => {
 
             // Close the modal after successful purchase
             setModalIsOpen(false);
+
+            const fetchData = async () => {
+                const userInfo = getUserInfo();
+                setUser(userInfo);
+                try {
+                    const response = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
+                    setCashBalance(response.data.cashBalance);
+                    const transactionsResponse = await axios.get(`http://localhost:8081/transaction/getAll`);
+                    const sortedTransactions = transactionsResponse.data.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
+                    setTransactions(sortedTransactions);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            };
+            fetchData();
+            
         } catch (error) {
             console.error('Error creating transaction:', error);
             setBuyError('Please enter a valid ticker or amount of stock to purchase');
@@ -96,7 +112,7 @@ const BuyPage = () => {
             <div className="text-center cool-font">
                 <h1>{user.username}</h1>
             </div>
-            <div className="col-md-12 text-center cool-font">
+            <div className="text-center cool-font">
                 <>
                     <Button className="text-center cool-font " onClick={handleShow}>
                         Log Out
