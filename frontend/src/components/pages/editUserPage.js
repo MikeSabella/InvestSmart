@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utilities/decodeJwt';
 
 const EditUserPage = () => {
-    const url = "http://localhost:8096/user/userEditUser";
+    const url = `${process.env.REACT_APP_BACKEND_SERVER_URI}/user/userEditUser`;
     const navigate = useNavigate();
 
     // form validation checks

@@ -24,9 +24,9 @@ const BuyPage = () => {
             const userInfo = getUserInfo();
             setUser(userInfo);
             try {
-                const response = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/user/getUserByUsername/${userInfo.username}`);
                 setCashBalance(response.data.cashBalance);
-                const transactionsResponse = await axios.get(`http://localhost:8081/transaction/getAll`);
+                const transactionsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/transaction/getAll`);
                 const sortedTransactions = transactionsResponse.data.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
                 setTransactions(sortedTransactions);
             } catch (error) {
@@ -49,7 +49,7 @@ const BuyPage = () => {
 
         try {
             // Call the createTransaction API endpoint with the buy transaction details
-            const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/transaction/createTransaction`, {
                 stock_name: stockName,
                 tran_type: 'BUY',
                 tran_amount: buyAmount,
@@ -61,7 +61,7 @@ const BuyPage = () => {
             setCashBalance(updatedBalance);
 
             // Optionally, you can fetch updated user data after the transaction
-            const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${user.username}`);
+            const userResponse = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/user/getUserByUsername/${user.username}`);
             setUser(userResponse.data);
 
             // Set buy success message
@@ -74,9 +74,9 @@ const BuyPage = () => {
                 const userInfo = getUserInfo();
                 setUser(userInfo);
                 try {
-                    const response = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
+                    const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/user/getUserByUsername/${userInfo.username}`);
                     setCashBalance(response.data.cashBalance);
-                    const transactionsResponse = await axios.get(`http://localhost:8081/transaction/getAll`);
+                    const transactionsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/transaction/getAll`);
                     const sortedTransactions = transactionsResponse.data.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
                     setTransactions(sortedTransactions);
                 } catch (error) {

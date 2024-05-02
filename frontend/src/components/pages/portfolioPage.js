@@ -23,10 +23,10 @@ const PortfolioPage = () => {
             const userInfo = getUserInfo();
             setUser(userInfo);
             try {
-                const response = await axios.get(`http://localhost:8081/holdings/${userInfo.username}`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/holdings/${userInfo.username}`);
                 setHoldings(response.data);
                 await fetchTotalValues(response.data);
-                const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
+                const userResponse = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/user/getUserByUsername/${userInfo.username}`);
                 setCashBalance(userResponse.data.cashBalance);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -89,7 +89,7 @@ const PortfolioPage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8081/transaction/createTransaction', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_SERVER_URI}/transaction/createTransaction`, {
                 stock_name: selectedStock,
                 tran_type: 'SELL',
                 tran_amount: sellAmount,
@@ -97,10 +97,10 @@ const PortfolioPage = () => {
             });
 
             const userInfo = getUserInfo();
-            const userResponse = await axios.get(`http://localhost:8081/user/getUserByUsername/${userInfo.username}`);
+            const userResponse = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/user/getUserByUsername/${userInfo.username}`);
             setCashBalance(userResponse.data.cashBalance);
 
-            const response2 = await axios.get(`http://localhost:8081/holdings/${userInfo.username}`);
+            const response2 = await axios.get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/holdings/${userInfo.username}`);
             setHoldings(response2.data);
             await fetchTotalValues(response2.data);
 
