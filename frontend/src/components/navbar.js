@@ -29,6 +29,7 @@ export default function Navbar() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/portfolio">Portfolio</Nav.Link>
             <Nav.Link href="/buyStock">Buy Stock</Nav.Link>
+            <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
           </Nav>
         </ReactNavbar.Collapse>
       </Container>
