@@ -78,9 +78,6 @@ const Register = () => {
                     onChange={handleChange}
                     placeholder="Enter username"
                   />
-                  <Form.Text className="text-muted">
-                    We just might sell your data
-                  </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label style={labelStyling}>Email</Form.Label>
@@ -90,9 +87,6 @@ const Register = () => {
                     onChange={handleChange}
                     placeholder="Enter Email Please"
                   />
-                  <Form.Text className="text-muted">
-                    We just might sell your data
-                  </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label style={labelStyling}>Password</Form.Label>

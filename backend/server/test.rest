@@ -1,5 +1,5 @@
 ###
-GET http://localhost:8081/holdings/mikesab12
+GET http://localhost:8081/holdings/mikesab1
 Content-Type: application/json
 ###
 POST http://localhost:8081/transaction/createtransaction
